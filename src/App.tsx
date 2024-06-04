@@ -24,6 +24,7 @@ function App() {
     null
   );
   const account = useActiveAccount();
+  const [isLoading, setLoading] = useState(false);
   return (
     <div className="flex flex-col min-h-[100dvh] py-10">
       <div className="m-auto flex flex-col gap-5">
@@ -37,6 +38,7 @@ function App() {
             onClick={() => {
               setPurchaseOption("fiat");
               setFiatQuote(null);
+              setLoading(false);
             }}
           >
             Purchase with Fiat
@@ -50,6 +52,7 @@ function App() {
             onClick={() => {
               setPurchaseOption("crypto");
               setCryptoQuote(null);
+              setLoading(false);
             }}
           >
             Purchase with Crypto
@@ -67,6 +70,7 @@ function App() {
                   <button
                     className="border px-4 py-1"
                     onClick={async () => {
+                      setLoading(true);
                       const _quote = await getBuyWithFiatQuote({
                         client: client, // thirdweb client
                         fromCurrencySymbol: "USD", // fiat currency symbol
@@ -76,9 +80,10 @@ function App() {
                         toAddress: account.address, // user's wallet address
                       });
                       setFiatQuote(_quote);
+                      setLoading(false);
                     }}
                   >
-                    Get quote
+                    {isLoading ? "Loading..." : "Get quote"}
                   </button>
 
                   {fiatQuote && (
@@ -118,6 +123,7 @@ function App() {
                 <button
                   className="border px-4 py-1"
                   onClick={async () => {
+                    setLoading(true);
                     const _quote = await getBuyWithCryptoQuote({
                       client,
                       fromAddress: account.address, // wallet address
@@ -132,11 +138,11 @@ function App() {
                       // toAddress: "0x...", // optional: send the tokens to a different address
                       maxSlippageBPS: 50, // optional: max 0.5% slippage
                     });
-                    console.log(_quote);
+                    setLoading(false);
                     setCryptoQuote(_quote);
                   }}
                 >
-                  Get quote
+                  {isLoading ? "Loading..." : "Get quote"}
                 </button>
 
                 {cryptoQuote && (
