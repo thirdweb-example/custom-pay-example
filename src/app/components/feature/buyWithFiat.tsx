@@ -24,8 +24,7 @@ export function BuyWithFiat() {
             toTokenAddress: NATIVE_TOKEN_ADDRESS,
             toAddress: account?.address,
             fromAddress: account?.address,
-            isTestMode: true,
-            preferredProvider: "TRANSAK"
+            isTestMode: true
         });
         setQuote(result);
         if (result?.onRampLink) window.open(result.onRampLink, "_blank");
