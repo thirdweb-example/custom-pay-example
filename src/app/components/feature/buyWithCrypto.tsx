@@ -12,7 +12,7 @@ export function BuyWithCrypto() {
   const [swapStatus, setSwapStatus] = useState<"COMPLETED" | "PENDING" | "FAILED" | "NOT_FOUND" | null>(null);
   const [error, setError] = useState<string | null>(null); 
   
-  const amount = "1000000"; 
+  const amount = "0.000001"; // 1000 wei in AVAX
   const originChainId = 8453;
   const destinationChainId = 8453;
   const destinationTokenAddress = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"; 
@@ -40,14 +40,14 @@ export function BuyWithCrypto() {
         originTokenAddress: NATIVE_TOKEN_ADDRESS,
         destinationChainId: destinationChainId,
         destinationTokenAddress: destinationTokenAddress,
-        buyAmountWei: BigInt("1000"),
+        amount: BigInt("1000"),
         sender: account?.address, 
         receiver: account?.address, 
         client,
       });
 
       // Step 3: Execute the prepared transactions
-      for (const transaction of preparedBuy.transactions) {
+      for (const transaction of preparedBuy.steps[0].transactions) {
         const tx = {
           to: transaction.to as string,
           value: BigInt(transaction.value ?? 0n),
