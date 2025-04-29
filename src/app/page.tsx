@@ -5,6 +5,7 @@ import { ConnectButton } from "thirdweb/react";
 import { client } from "./client";
 import { BuyWithFiat } from "./components/feature/buyWithFiat";
 import { BuyWithCrypto } from "./components/feature/buyWithCrypto";
+import { base } from "thirdweb/chains";
 
 export default function Home() {
   
@@ -14,7 +15,7 @@ export default function Home() {
       <div className="py-20 space-y-12 w-full">
         <div className="flex flex-col items-center space-y-6">
           {/* Connect Button */}
-          <ConnectButton client={client}  />
+          <ConnectButton client={client} chain={base} />
 
         
 

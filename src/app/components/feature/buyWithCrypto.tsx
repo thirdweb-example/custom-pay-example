@@ -12,7 +12,7 @@ export function BuyWithCrypto() {
   const [swapStatus, setSwapStatus] = useState<"COMPLETED" | "PENDING" | "FAILED" | "NOT_FOUND" | null>(null);
   const [error, setError] = useState<string | null>(null); 
   
-  const amount = "0.000001"; // 1000 wei in AVAX
+  const amount = "0.000001"; // 1000 wei in Base
   const originChainId = 8453;
   const destinationChainId = 8453;
   const destinationTokenAddress = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"; 
@@ -26,10 +26,10 @@ export function BuyWithCrypto() {
       // Step 1: Get Quote for the swap
       const buyQuote = await Bridge.Buy.quote({
         originChainId: originChainId,
-        originTokenAddress: NATIVE_TOKEN_ADDRESS, // AVAX token
+        originTokenAddress: NATIVE_TOKEN_ADDRESS, // Base token
         destinationChainId: destinationChainId,
-        destinationTokenAddress: destinationTokenAddress, // USDC on AVAX (ERC-20)
-        buyAmountWei: BigInt("1000"), // 0.5 AVAX, converted to wei
+        destinationTokenAddress: destinationTokenAddress, // USDC on Base (ERC-20)
+        buyAmountWei: BigInt("1000"), // 0.5 Base, converted to wei
         client,
       });
       console.log(buyQuote)
@@ -81,8 +81,8 @@ export function BuyWithCrypto() {
   return (
     <div className="w-full max-w-md mx-auto bg-black border border-white rounded-xl shadow-lg overflow-hidden">
       <div className="bg-black p-6 text-white border-b border-white">
-        <h2 className="text-2xl font-bold">Buy Crypto with AVAX</h2>
-        <p className="text-white">Amount: {amount} AVAX → USDC on AVAX</p>
+        <h2 className="text-2xl font-bold">Buy Crypto with Base</h2>
+        <p className="text-white">Amount: {amount} Eth → USDC on Base</p>
       </div>
 
       <div className="p-6 space-y-6">
