@@ -19,13 +19,16 @@ export function BuyWithFiat() {
         const result = await getBuyWithFiatQuote({
             client,
             fromCurrencySymbol: "USD",
-            toChainId: base.id,
-            toAmount: "0.1",
-            toTokenAddress: NATIVE_TOKEN_ADDRESS,
+            toAmount: "10",
+            toChainId: 4337,
+            toTokenAddress: "0xaff7314bc869ff4ab265ec7efa8e442f1d978d7a",
             toAddress: account?.address,
             fromAddress: account?.address,
-            isTestMode: true
+            isTestMode: false
         });
+        console.log(result);
+        const hasMultipleSteps = isSwapRequiredPostOnramp(result);
+        console.log(hasMultipleSteps);
         setQuote(result);
         if (result?.onRampLink) window.open(result.onRampLink, "_blank");
     }
@@ -33,6 +36,8 @@ export function BuyWithFiat() {
     async function checkFiatStatus() {
         if (!quote) return;
         const status = await getBuyWithFiatStatus({ client, intentId: quote.intentId });
+        console.log(status);
+
         setFiatStatus(status);
         if (status.status === "CRYPTO_SWAP_REQUIRED") {
             const swap = await getPostOnRampQuote({ client, buyWithFiatStatus: status });

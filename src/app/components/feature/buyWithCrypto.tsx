@@ -14,8 +14,10 @@ export function BuyWithCrypto() {
   
   const amount = "1000000"; 
   const originChainId = 8453;
-  const destinationChainId = 8453;
-  const destinationTokenAddress = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"; 
+  //const destinationChainId = 8453;
+  // const destinationTokenAddress = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"; 
+  const destinationChainId = 4337;
+  const destinationTokenAddress = "0xaff7314bc869ff4ab265ec7efa8e442f1d978d7a";
 
   async function handleSwap() {
     setLoading(true);
@@ -40,16 +42,18 @@ export function BuyWithCrypto() {
         originTokenAddress: NATIVE_TOKEN_ADDRESS,
         destinationChainId: destinationChainId,
         destinationTokenAddress: destinationTokenAddress,
-        buyAmountWei: BigInt("1000"),
+        amount: BigInt("1000"),
         sender: account?.address, 
         receiver: account?.address, 
         client,
       });
 
       // Step 3: Execute the prepared transactions
-      for (const transaction of preparedBuy.transactions) {
-        const tx = {
-          to: transaction.to as string,
+      // need to loop through the steps
+      for (const step of preparedBuy.steps) {
+        for (const transaction of step.transactions) {
+          const tx = {
+            to: transaction.to as string,
           value: BigInt(transaction.value ?? 0n),
           data: transaction.data,
           chain: defineChain(transaction.chainId),
@@ -67,8 +71,8 @@ export function BuyWithCrypto() {
           });
           setSwapStatus(status.status);
         } while (status.status !== "COMPLETED");
+        }
       }
-
       setSwapStatus("COMPLETED");
     } catch (error) {
       setError("An error occurred. Please try again.");
