@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ConnectButton, useLinkProfile } from "thirdweb/react";
-import { createWallet } from "thirdweb/wallets";
+import { createWallet, inAppWallet } from "thirdweb/wallets";
 import { defineChain, sepolia } from "thirdweb/chains"; // or your preferred chain
 import { client } from "./client";
 import { BuyWithFiat } from "./components/feature/buyWithFiat";
@@ -25,7 +25,7 @@ export default function Home() {
     <main className="p-4 pb-10 min-h-[100vh] flex items-center justify-center bg-black text-white container max-w-screen-lg mx-auto">
       <div className="py-20 space-y-12 w-full">
         <div className="flex flex-col items-center space-y-6">
-          <ConnectButton client={client}/>
+          <ConnectButton client={client} wallets={[abstractWallet(), inAppWallet({auth: {options: ['google', 'email']}})]} showAllWallets={false}/>
 
           <button
             onClick={handleLinkAbstract}
